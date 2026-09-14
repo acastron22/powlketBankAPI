@@ -15,6 +15,7 @@ import java.util.UUID;
 @Table(name = "usuarios")
 @Entity(name = "usuario")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")

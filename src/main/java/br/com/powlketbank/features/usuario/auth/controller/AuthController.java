@@ -1,6 +1,7 @@
 package br.com.powlketbank.features.usuario.auth.controller;
 
 
+import br.com.powlketbank.features.usuario.auth.DTO.request.LoginRequestDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(
-            @RequestBody @Valid LoginRequest request
+            @RequestBody @Valid LoginRequestDTO request
     ) {
 
 
