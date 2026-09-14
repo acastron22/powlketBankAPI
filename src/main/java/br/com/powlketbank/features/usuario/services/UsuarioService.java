@@ -8,6 +8,7 @@ import br.com.powlketbank.features.usuario.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,14 +18,14 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public Usuario cadastrarNovoUsuario( UsuarioCadastroDTO usuario) {
 
-
-
         Usuario usuarioNovo = new Usuario();
         usuarioNovo.setUsuario(usuario.usuario());
-        usuarioNovo.setSenha(usuario.senha()); // lembrar de passar a criptografia
+        usuarioNovo.setSenha(passwordEncoder.encode(usuario.senha()));
         usuarioNovo.setEmail(usuario.email());
         usuarioNovo.setNomeCompleto(usuario.nomeCompleto());
 
