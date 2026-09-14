@@ -1,6 +1,7 @@
 package br.com.powlketbank.features.usuario.domain;
 
 
+import br.com.powlketbank.features.usuario.endereco.domain.Endereco;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,6 +30,15 @@ public class Usuario implements UserDetails {
 
     @Column(nullable = false, length = 256)
     private String senha;
+
+    @Column(nullable = false, length = 256)
+    private String email;
+
+    @Column(nullable = false, length = 256)
+    private String nomeCompleto;
+
+    @Embedded
+    private Endereco endereco;
 
     public Usuario(String usuario, String senhaCriptografada){
         this.usuario = usuario;
