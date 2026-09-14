@@ -5,7 +5,7 @@ services:
     image: postgres:16-alpine
     container_name: powlketbank-db-8083
     ports:
-      - "8083:5432"
+      - "5436:5432"
     environment:
       POSTGRES_DB: powlketbank_db
       POSTGRES_USER: postgres

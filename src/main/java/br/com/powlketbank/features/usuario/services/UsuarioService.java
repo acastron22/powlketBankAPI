@@ -22,7 +22,6 @@ public class UsuarioService {
         Usuario usuarioNovo = new Usuario();
 
         usuarioRepository.save(usuarioNovo);
-
         return usuarioNovo;
     }
 }

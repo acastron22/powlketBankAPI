@@ -1,7 +1,7 @@
-package br.com.powlketbank.features.usuario.auth.controller;
+package br.com.powlketbank.features.auth.controller;
 
 
-import br.com.powlketbank.features.usuario.auth.DTO.request.LoginRequestDTO;
+import br.com.powlketbank.features.auth.DTO.request.LoginRequestDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
