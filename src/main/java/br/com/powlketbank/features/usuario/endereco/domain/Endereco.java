@@ -23,7 +23,7 @@ public class Endereco
     @Column(nullable = false, length = 8)
     private String cep;
 
-    @Column(nullable = false, length = 16)
+    @Column(length = 16)
     private String numero;
 
     @Column(length = 128)
