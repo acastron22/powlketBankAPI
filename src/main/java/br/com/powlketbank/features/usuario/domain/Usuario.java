@@ -28,13 +28,13 @@ public class Usuario implements UserDetails {
     @Column(unique = true, nullable = false, length = 100)
     private String usuario;
 
-    @Column(nullable = false, length = 256)
+    @Column(nullable = false, length = 32)
     private String senha;
 
-    @Column(nullable = false, length = 256)
+    @Column(nullable = false, length = 128)
     private String email;
 
-    @Column(nullable = false, length = 256)
+    @Column(nullable = false, length = 128)
     private String nomeCompleto;
 
     @Embedded
