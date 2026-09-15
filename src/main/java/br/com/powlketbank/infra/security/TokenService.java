@@ -17,42 +17,74 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String gerarTokenAutorizacao( Usuario usuario) {
+    private static final String ISSUER = "PowlketBank";
+    private static final String CLAIM_TYPE = "type";
+    private static final String TYPE_ACCESS = "ACCESS";
+    private static final String TYPE_REFRESH = "REFRESH";
+
+    public String gerarTokenAutorizacao(Usuario usuario) {
         try {
-
-            var algoritimo = Algorithm.HMAC256(secret);
-
-
+            var algoritmo = Algorithm.HMAC256(secret);
             return com.auth0.jwt.JWT.create()
-                    .withIssuer("PowlketBank")
-                    .withSubject(usuario.getNomeCompleto())
+                    .withIssuer(ISSUER)
+                    .withSubject(usuario.getEmail())
+                    .withClaim(CLAIM_TYPE, TYPE_ACCESS)
                     .withExpiresAt(dataExpiracao())
-                    .sign(algoritimo);
-
-
-        }catch (JWTCreationException exception) {
+                    .sign(algoritmo);
+        } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar token de autorização", exception);
         }
     }
 
-    public String getSubject(String tokenJWT){
-        try{
+    public String gerarRefreshToken(Usuario usuario) {
+        try {
             var algoritmo = Algorithm.HMAC256(secret);
-
-            return com.auth0.jwt.JWT.require(algoritmo)
-                    .withIssuer("PowlketBank")
-                    .build()
-                    .verify(tokenJWT)
-                    .getSubject();
-        }
-        catch (JWTVerificationException exception){
-
-            throw new RuntimeException("Erro ao validar autorização", exception);
-
+            return com.auth0.jwt.JWT.create()
+                    .withIssuer(ISSUER)
+                    .withSubject(usuario.getEmail())
+                    .withClaim(CLAIM_TYPE, TYPE_REFRESH)
+                    .withExpiresAt(dataExpiracaoRefreshToken())
+                    .sign(algoritmo);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar refresh token", exception);
         }
     }
 
-    private Instant dataExpiracao(){
+    public String getSubject(String tokenJWT) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+            var decodedJWT = com.auth0.jwt.JWT.require(algoritmo)
+                    .withIssuer(ISSUER)
+                    .withClaim(CLAIM_TYPE, TYPE_ACCESS)
+                    .build()
+                    .verify(tokenJWT);
+
+            return decodedJWT.getSubject();
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("Token de acesso inválido ou expirado", exception);
+        }
+    }
+
+    public String getSubjectRefreshToken(String refreshToken) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+            var decodedJWT = com.auth0.jwt.JWT.require(algoritmo)
+                    .withIssuer(ISSUER)
+                    .withClaim(CLAIM_TYPE, TYPE_REFRESH)
+                    .build()
+                    .verify(refreshToken);
+
+            return decodedJWT.getSubject();
+        } catch (JWTVerificationException exception) {
+            throw new RuntimeException("Refresh token inválido ou expirado", exception);
+        }
+    }
+
+    private Instant dataExpiracao() {
         return LocalDateTime.now().plusHours(2).toInstant(java.time.ZoneOffset.of("-03:00"));
+    }
+
+    private Instant dataExpiracaoRefreshToken() {
+        return LocalDateTime.now().plusDays(7).toInstant(java.time.ZoneOffset.of("-03:00"));
     }
 }
