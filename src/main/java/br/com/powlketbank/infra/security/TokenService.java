@@ -17,7 +17,7 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String gerarTOkenAutorizacao( Usuario usuario) {
+    public String gerarTokenAutorizacao( Usuario usuario) {
         try {
 
             var algoritimo = Algorithm.HMAC256(secret);
@@ -25,7 +25,7 @@ public class TokenService {
 
             return com.auth0.jwt.JWT.create()
                     .withIssuer("PowlketBank")
-                    .withSubject(usuario.getUsuario())
+                    .withSubject(usuario.getNomeCompleto())
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritimo);
 
