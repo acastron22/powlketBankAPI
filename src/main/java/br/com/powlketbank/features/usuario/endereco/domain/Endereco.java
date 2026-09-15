@@ -11,16 +11,15 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Endereco
-{
+public class Endereco {
 
-    @Column(nullable = false, length = 128)
+    @Column(length = 128)
     private String logradouro;
 
-    @Column(nullable = false, length = 128)
+    @Column(length = 128)
     private String bairro;
 
-    @Column(nullable = false, length = 8)
+    @Column(length = 8)
     private String cep;
 
     @Column(length = 16)
@@ -29,9 +28,9 @@ public class Endereco
     @Column(length = 128)
     private String complemento;
 
-    @Column(nullable = false, length = 64)
+    @Column(length = 64)
     private String cidade;
 
-    @Column(nullable = false, length = 2)
+    @Column(length = 2)
     private String uf;
 }

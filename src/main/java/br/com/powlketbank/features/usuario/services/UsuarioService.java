@@ -24,7 +24,6 @@ public class UsuarioService {
     public Usuario cadastrarNovoUsuario( UsuarioCadastroDTO usuario) {
 
         Usuario usuarioNovo = new Usuario();
-        usuarioNovo.setUsuario(usuario.usuario());
         usuarioNovo.setSenha(passwordEncoder.encode(usuario.senha()));
         usuarioNovo.setEmail(usuario.email());
         usuarioNovo.setNomeCompleto(usuario.nomeCompleto());

@@ -2,8 +2,10 @@ package br.com.powlketbank.features.usuario.domain;
 
 
 import br.com.powlketbank.features.usuario.endereco.domain.Endereco;
+import br.com.powlketbank.shared.services.Conversor.CpfCryptoConverter;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,13 +28,10 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true, nullable = false, length = 100)
-    private String usuario;
-
     @Column(nullable = false, length = 60)
     private String senha;
 
-    @Column(nullable = false, length = 128)
+    @Column(unique = true, nullable = false, length = 128)
     private String email;
 
     @Column(nullable = false, length = 128)
@@ -41,8 +40,12 @@ public class Usuario implements UserDetails {
     @Embedded
     private Endereco endereco;
 
-    public Usuario(String usuario, String senhaCriptografada){
-        this.usuario = usuario;
+    @Column(unique = true, nullable = false, name = "cpf", length = 255)
+    @Convert(converter = CpfCryptoConverter.class)
+    private String cpf;
+
+    public Usuario(String email, String senhaCriptografada){
+        this.email = email;
         this.senha = senhaCriptografada;
     }
 
@@ -53,5 +56,5 @@ public class Usuario implements UserDetails {
     public @Nullable String getPassword() {return senha;}
 
     @Override
-    public @Nullable String getUsername() {return usuario;}
+    public @Nullable String getUsername() {return email;}
 }

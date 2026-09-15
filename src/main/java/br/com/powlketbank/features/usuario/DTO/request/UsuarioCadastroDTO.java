@@ -16,5 +16,8 @@ public record UsuarioCadastroDTO(
         @NotBlank
         String email,
 
+        @NotBlank
+        String cpf,
+
         EnderecoCadastroDTO endereco) {
 }
