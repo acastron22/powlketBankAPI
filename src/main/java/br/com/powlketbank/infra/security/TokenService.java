@@ -21,6 +21,7 @@ public class TokenService {
     private static final String CLAIM_TYPE = "type";
     private static final String TYPE_ACCESS = "ACCESS";
     private static final String TYPE_REFRESH = "REFRESH";
+    private static final String TYPE_INFO = "INFO";
 
     public String gerarTokenAutorizacao(Usuario usuario) {
         try {
@@ -47,6 +48,21 @@ public class TokenService {
                     .sign(algoritmo);
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar refresh token", exception);
+        }
+    }
+
+    public String gerarPerfilToken(Usuario usuario) {
+        try {
+            var algoritmo = Algorithm.HMAC256(secret);
+            return com.auth0.jwt.JWT.create()
+                    .withIssuer(ISSUER)
+                    .withSubject(usuario.getEmail())
+                    .withClaim(CLAIM_TYPE, TYPE_INFO)
+                    .withClaim("nome", usuario.getNomeCompleto())
+                    .withExpiresAt(dataExpiracaoRefreshToken())
+                    .sign(algoritmo);
+        } catch (JWTCreationException exception) {
+            throw new RuntimeException("Erro ao gerar token de perfil", exception);
         }
     }
 

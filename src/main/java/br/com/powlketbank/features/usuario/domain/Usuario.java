@@ -44,6 +44,9 @@ public class Usuario implements UserDetails {
     @Convert(converter = CpfCryptoConverter.class)
     private String cpf;
 
+    @Column(nullable = false)
+    private boolean ativo = true;
+
     public Usuario(String email, String senhaCriptografada){
         this.email = email;
         this.senha = senhaCriptografada;
