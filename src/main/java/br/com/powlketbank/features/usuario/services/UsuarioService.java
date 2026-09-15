@@ -27,6 +27,7 @@ public class UsuarioService {
         usuarioNovo.setSenha(passwordEncoder.encode(usuario.senha()));
         usuarioNovo.setEmail(usuario.email());
         usuarioNovo.setNomeCompleto(usuario.nomeCompleto());
+        usuarioNovo.setCpf(usuario.cpf());
 
         if (usuario.endereco() != null) {
             Endereco endereco = new Endereco(
